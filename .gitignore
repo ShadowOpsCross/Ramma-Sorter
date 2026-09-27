@@ -1,4 +1,26 @@
+# Python
 venv/
-.env
+venv312/
+test_env/
+.venv/
+
 __pycache__/
-*.db
+*.pyc
+
+# Environment variables
+.env
+
+# Google credentials
+client_secret.json
+token.json
+credentials/
+
+# Build artifacts
+build/
+dist/
+*.spec
+*.exe
+*.zip
+
+# IDE
+.idea/

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <link
+    rel="icon"
+    type="image/svg+xml"
+    href="/static/favicon.svg"
+    >
+
+    <title>Ramma Sorter</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
+<body>
+    <main class="login-page">
+
+        <section class="login-card">
+
+            <div class="login-logo">
+                R
+            </div>
+
+            <div class="login-badge">
+                AI MUSIC TOOL
+            </div>
+
+            <h1>
+                Ramma Sorter
+            </h1>
+
+            <p class="login-subtitle">
+                Your music. Your rules.
+            </p>
+
+            <p class="login-description">
+                Sort your YouTube playlists using AI
+                and create exactly the playlists you want.
+            </p>
+
+
+            <div class="setup-section">
+
+                <div class="section-label">
+                    GETTING STARTED
+                </div>
+
+                <h2>
+                    Connect your Google account
+                </h2>
+
+                <p class="setup-description">
+                    Ramma Sorter uses your own Google Cloud
+                    project and YouTube API quota.
+                </p>
+
+
+                <div class="setup-step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <div class="step-content">
+                        <strong>
+                            Create a Google Cloud project
+                        </strong>
+
+                        <span>
+                            Use your own project for YouTube API access.
+                        </span>
+
+                        <a
+                            href="https://console.cloud.google.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="setup-link"
+                        >
+                            Open Google Cloud →
+                        </a>
+                    </div>
+
+                </div>
+
+
+                <div class="setup-step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <div class="step-content">
+                        <strong>
+                            Enable YouTube Data API v3
+                        </strong>
+
+                        <span>
+                            Enable the API for your project.
+                        </span>
+
+                        <a
+                            href="https://console.cloud.google.com/apis/library/youtube.googleapis.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="setup-link"
+                        >
+                            Open API Library →
+                        </a>
+                    </div>
+
+                </div>
+
+
+                <div class="setup-step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <div class="step-content">
+                        <strong>
+                            Create OAuth credentials
+                        </strong>
+
+                        <span>
+                            Create a Desktop app OAuth client
+                            and download the JSON file.
+                        </span>
+
+                        <a
+                            href="https://console.cloud.google.com/auth/clients"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="setup-link"
+                        >
+                            Open OAuth Clients →
+                        </a>
+                    </div>
+
+                </div>
+
+
+                <div class="setup-step upload-step">
+
+                    <div class="step-number">
+                        04
+                    </div>
+
+                    <div class="step-content">
+
+                        <strong>
+                            Upload your credentials
+                        </strong>
+
+                        <span>
+                            Select the OAuth JSON file you downloaded.
+                        </span>
+
+                        <label
+                            for="credentials-file"
+                            class="file-button"
+                        >
+                            Choose JSON file
+                        </label>
+
+                        <input
+                            type="file"
+                            id="credentials-file"
+                            accept=".json"
+                            hidden
+                        >
+
+                        <div
+                            id="file-name"
+                            class="file-name"
+                        >
+                            No file selected
+                        </div>
+
+                        <button
+                            id="upload-button"
+                            class="secondary-button"
+                            type="button"
+                        >
+                            Upload credentials
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="status"
+                class="status"
+            ></div>
+
+
+            <button
+                id="connect-button"
+                class="primary-button connect-button"
+                type="button"
+                disabled
+            >
+                Connect Google Account
+            </button>
+
+
+            <p class="privacy-note">
+                Your Google credentials and authorization
+                tokens are stored locally on this computer.
+            </p>
+
+        </section>
+
+    </main>
+
+    <script src="/static/login.js"></script>
+
+</body>
+</html>

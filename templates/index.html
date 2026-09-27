@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <link
+    rel="icon"
+    type="image/svg+xml"
+    href="/static/favicon.svg"
+    >
+    <title>Ramma Sorter</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+</head>
+
+
+<body>
+
+
+<header class="hero">
+
+    <div class="hero-glow"></div>
+
+
+    <div class="hero-content">
+
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                R
+            </div>
+
+            <div>
+
+                <div class="brand-name">
+                    RAMMA
+                </div>
+
+                <div class="brand-subtitle">
+                    SORTER
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-center">
+
+            <div class="hero-badge">
+                AI MUSIC TOOL
+            </div>
+
+            <h1>
+                Your music.
+                <span>Your rules.</span>
+            </h1>
+
+            <p>
+                Turn your YouTube playlists into exactly
+                what you want to listen to.
+            </p>
+
+        </div>
+
+
+        <button
+            id="logout-button"
+            class="disconnect-button"
+            type="button"
+            onclick="logout()"
+        >
+            Disconnect
+        </button>
+
+
+    </div>
+
+</header>
+
+
+
+<main class="main-content">
+
+
+    <section class="playlists-section">
+
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="section-label">
+                    YOUR MUSIC
+                </div>
+
+                <h2>
+                    Select playlists
+                </h2>
+
+                <p>
+                    Choose one or more playlists to use
+                    for AI sorting.
+                </p>
+
+            </div>
+
+
+            <button
+                id="refresh-button"
+                class="secondary-button"
+                type="button"
+                onclick="loadPlaylists()"
+            >
+                Refresh
+            </button>
+
+        </div>
+
+
+        <div
+            id="playlists-container"
+            class="playlists-grid"
+        >
+
+            <div class="loading">
+                Loading playlists...
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <section class="sort-panel">
+
+
+        <div class="sort-panel-header">
+
+            <div class="section-label">
+                AI SORTER
+            </div>
+
+            <h2>
+                Tell AI what you want
+            </h2>
+
+            <p>
+                Describe the kind of music you want
+                in natural language.
+            </p>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="user-prompt">
+                Music criteria
+            </label>
+
+            <textarea
+                id="user-prompt"
+                rows="5"
+                placeholder="For example: energetic rap for the gym, aggressive tracks, no sad songs..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="playlist-name">
+                New playlist name
+            </label>
+
+            <input
+                id="playlist-name"
+                type="text"
+                placeholder="My Energy Mix"
+            >
+
+        </div>
+
+
+        <div
+            id="status"
+            class="status"
+        ></div>
+
+
+        <button
+            id="sort-button"
+            class="primary-button sort-button"
+            type="button"
+            onclick="sortPlaylists()"
+        >
+            Sort playlists
+
+            <span class="button-arrow">
+                →
+            </span>
+
+        </button>
+
+
+    </section>
+
+
+    <section
+        id="progress-panel"
+        class="progress-panel hidden"
+    >
+
+        <div class="progress-header">
+
+            <div>
+                <div class="section-label">
+                    AI SORTER
+                </div>
+
+                <h2 id="progress-title">
+                    Preparing...
+                </h2>
+            </div>
+
+            <div
+                id="progress-percent"
+                class="progress-percent"
+            >
+                0%
+            </div>
+
+        </div>
+
+
+        <div class="progress-track">
+
+            <div
+                id="progress-bar"
+                class="progress-bar"
+            ></div>
+
+        </div>
+
+
+        <div class="progress-info">
+
+            <span id="progress-count">
+                Preparing...
+            </span>
+
+            <span id="progress-track-name"></span>
+
+        </div>
+
+    </section>
+
+
+    <section
+        id="result"
+        class="result-panel hidden"
+    ></section>
+
+</main>
+
+
+
+<footer class="footer">
+
+    <span>
+        RAMMA SORTER
+    </span>
+
+    <span>
+        •
+    </span>
+
+    <span>
+        YOUR MUSIC. YOUR RULES.
+    </span>
+
+</footer>
+
+
+
+<script src="/static/app.js"></script>
+
+</body>
+
+</html>
