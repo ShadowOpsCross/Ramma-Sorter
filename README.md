@@ -1,73 +1,210 @@
 # Ramma Sorter
 
-Ramma Sorter is an AI-powered local application for organizing YouTube playlists.
+AI-powered YouTube Music playlist sorter.
 
-It lets you:
+Ramma Sorter analyzes your existing YouTube playlists using Gemini AI and creates a new playlist containing tracks that match your description.
 
-* Connect your own Google / YouTube account.
-* Select one or multiple playlists.
-* Describe the kind of music you want using natural language.
-* Let AI analyze your tracks.
-* Automatically create a new private playlist containing the selected tracks.
-* Open the resulting playlist directly in YouTube Music.
+Instead of manually searching through hundreds of songs, simply select your playlists and describe what you want to find.
 
-The application is designed to run locally on your computer.
+## Features
 
----
+* Select one or multiple YouTube playlists
+* Automatically collect and deduplicate tracks
+* Describe your desired music using natural language
+* AI-powered track filtering with Gemini
+* Create a new private YouTube playlist automatically
+* Add matching tracks directly to the new playlist
+* Real-time sorting progress
+* YouTube Music playlist links
+* Local credential and API key storage
+* Windows standalone executable
+* No Python installation required for end users
 
-## How authentication works
-
-Ramma Sorter does **not** use the developer's Google OAuth credentials.
-
-Each user creates their own Google Cloud project and OAuth credentials.
-
-The authentication flow is:
+## How It Works
 
 ```text
-Your Google Cloud Project
-        │
-        │ OAuth credentials
-        ▼
-   Ramma Sorter
-        │
-        │ OAuth authorization
-        ▼
- Your Google / YouTube account
+Your YouTube Playlists
+        |
+        v
+Select Playlists
+        |
+        v
+Collect Tracks
+        |
+        v
+Remove Duplicates
+        |
+        v
+Gemini AI Analysis
+        |
+        v
+Select Matching Tracks
+        |
+        v
+Create New Playlist
+        |
+        v
+Add Tracks
+        |
+        v
+Open in YouTube Music
 ```
 
-This means you use your own Google Cloud project for YouTube Data API requests and quota accounting.
+Gemini primarily analyzes track titles and artists. YouTube descriptions are used only as additional context when the title does not provide enough information.
 
-Your `client_secret.json` and generated `token.json` stay on your local machine.
+## Screenshots
 
----
+Screenshots will be added here.
 
-# Requirements
+## For Windows Users
 
-Before installing Ramma Sorter, make sure you have:
+### Requirements
 
-* Python 3.8 or newer
-* A Google account
-* A Google Cloud project
-* YouTube Data API v3 enabled
-* Google OAuth 2.0 Desktop credentials
-* A Gemini API key
+* Windows 10 or newer
+* Google account
+* YouTube account
+* Gemini API key
+* Your own Google Cloud OAuth credentials
 
----
+You do **not** need:
 
-# 1. Clone the repository
+* Python
+* pip
+* VS Code
+* FastAPI
+* Git
 
-Clone the repository:
+### Installation
+
+1. Download the latest Windows release from the GitHub Releases page.
+2. Extract the downloaded ZIP archive.
+3. Run `RammaSorter.exe`.
+4. The application will automatically open in your default browser.
+5. Follow the first-run setup instructions.
+6. Configure your Google OAuth credentials.
+7. Connect your YouTube account.
+8. Enter your Gemini API key.
+9. Select the playlists you want to analyze.
+10. Describe the music you want to find.
+11. Enter a name for the new playlist.
+12. Start sorting.
+
+The application stores its local configuration under:
+
+```text
+%APPDATA%\RammaSorter\
+```
+
+This includes:
+
+```text
+client_secret.json
+token.json
+config.json
+```
+
+Your credentials are stored locally on your computer and are not committed to the project repository.
+
+## Google Cloud Setup
+
+Ramma Sorter uses the YouTube Data API to access your playlists and create new playlists.
+
+You need to create your own Google Cloud project and configure OAuth credentials for the application.
+
+### Required API
+
+Enable:
+
+```text
+YouTube Data API v3
+```
+
+Create OAuth credentials for a **Desktop application** and download the resulting JSON file.
+
+Ramma Sorter validates the uploaded credentials and stores them locally in:
+
+```text
+%APPDATA%\RammaSorter\client_secret.json
+```
+
+Uploading new credentials removes the previously stored YouTube authorization token so that the account can be authorized again.
+
+## Gemini API Setup
+
+Ramma Sorter uses the Gemini API for music filtering.
+
+Create your own Gemini API key and enter it in the application during setup.
+
+The key is stored locally in:
+
+```text
+%APPDATA%\RammaSorter\config.json
+```
+
+Example:
+
+```json
+{
+    "gemini_api_key": "YOUR_API_KEY"
+}
+```
+
+Never commit your API key to Git.
+
+## YouTube API Quota
+
+YouTube Data API requests are subject to Google's quota system.
+
+Ramma Sorter uses the YouTube API to:
+
+* Read playlists
+* Read playlist tracks
+* Create playlists
+* Add videos to playlists
+
+Large playlists may require a significant number of API requests.
+
+If you reach your project's quota limit, you may need to wait for the quota to reset or review your quota and usage in Google Cloud.
+
+Each user should use their own Google Cloud project and OAuth credentials rather than sharing credentials with other users.
+
+## Security
+
+Ramma Sorter is designed so that sensitive credentials are stored outside the application directory.
+
+Local application data is stored in:
+
+```text
+%APPDATA%\RammaSorter\
+```
+
+The following files should never be uploaded to GitHub:
+
+```text
+client_secret.json
+token.json
+config.json
+```
+
+The repository includes a `.gitignore` configuration to prevent sensitive files and local development artifacts from being committed accidentally.
+
+## For Developers
+
+### Requirements
+
+* Python 3.12+
+* Git
+
+### Clone the Repository
 
 ```bash
-git clone <YOUR_REPOSITORY_URL>
+git clone YOUR_REPOSITORY_URL
 cd Ramma_sorter
 ```
 
----
+### Create a Virtual Environment
 
-# 2. Create a virtual environment
-
-Windows:
+Windows PowerShell:
 
 ```powershell
 python -m venv venv
@@ -76,496 +213,120 @@ python -m venv venv
 Activate it:
 
 ```powershell
-venv\Scripts\activate
+.\venv\Scripts\Activate.ps1
 ```
 
-You should see:
-
-```text
-(venv)
-```
-
-at the beginning of your terminal prompt.
-
----
-
-# 3. Install dependencies
-
-Install the required packages:
+### Install Dependencies
 
 ```powershell
 pip install -r requirements.txt
 ```
 
-If `requirements.txt` does not contain `python-multipart`, install it manually:
+### Run the Application
+
+Start the launcher:
 
 ```powershell
-pip install python-multipart
+python launcher.py
 ```
 
----
+The launcher starts the FastAPI server and automatically opens the application in your default browser.
 
-# 4. Create your Google Cloud project
-
-Open the Google Cloud Console:
-
-https://console.cloud.google.com/
-
-Create a new project for Ramma Sorter.
-
-You can use any project name, for example:
-
-```text
-Ramma Sorter
-```
-
-It is recommended to create a separate project for this application.
-
----
-
-# 5. Enable YouTube Data API v3
-
-Open the API Library:
-
-https://console.cloud.google.com/apis/library
-
-Search for:
-
-```text
-YouTube Data API v3
-```
-
-Open it and click:
-
-```text
-Enable
-```
-
-Google's official YouTube API documentation also provides the API setup instructions:
-
-https://developers.google.com/youtube/v3/getting-started
-
----
-
-# 6. Configure Google OAuth
-
-Open Google Auth Platform:
-
-https://console.cloud.google.com/auth/overview
-
-You may be asked to configure your OAuth application.
-
-Configure the application information / branding.
-
-Google's OAuth documentation:
-
-https://developers.google.com/workspace/guides/configure-oauth-consent
-
-For a personal/local application, follow Google's current OAuth setup flow and provide the required application information.
-
-If Google asks you to configure test users, add the Google account that you will use with Ramma Sorter.
-
----
-
-# 7. Create OAuth credentials
-
-Open the Google Cloud Credentials page:
-
-https://console.cloud.google.com/apis/credentials
-
-Create a new OAuth client.
-
-For the current local Ramma Sorter setup, create:
-
-```text
-OAuth Client ID
-Application type: Desktop app
-```
-
-Give it a recognizable name, for example:
-
-```text
-Ramma Sorter Desktop
-```
-
-Google's documentation for installed / desktop applications:
-
-https://developers.google.com/youtube/v3/guides/auth/installed-apps
-
----
-
-# 8. Download client_secret.json
-
-After creating the OAuth client, download the credentials JSON file.
-
-Google will provide a JSON file containing your OAuth client configuration.
-
-Rename it to:
-
-```text
-client_secret.json
-```
-
-Do **not** publish this file to GitHub.
-
-Do **not** send your credentials to other people.
-
----
-
-# 9. Create a Gemini API key
-
-Ramma Sorter uses Gemini to analyze music according to the user's description.
-
-Create your Gemini API key using Google's Gemini / AI Studio:
-
-https://aistudio.google.com/apikey
-
-Create a new API key.
-
-Then create a `.env` file in the Ramma Sorter project directory:
-
-```text
-.env
-```
-
-Add:
-
-```env
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-```
-
-Replace:
-
-```text
-YOUR_GEMINI_API_KEY
-```
-
-with your actual key.
-
-Never commit `.env` to GitHub.
-
----
-
-# 10. Start Ramma Sorter
-
-Start the FastAPI server:
-
-```powershell
-uvicorn main:app --reload
-```
-
-You should see something similar to:
-
-```text
-Uvicorn running on http://127.0.0.1:8000
-```
-
-Open:
-
-https://127.0.0.1:8000
-
-Or:
+The development server is available at:
 
 ```text
 http://127.0.0.1:8000
 ```
 
----
+### API Health Check
 
-# 11. Connect your Google account
-
-When you open Ramma Sorter for the first time, you will see the authentication page.
-
-Upload:
+The application provides:
 
 ```text
-client_secret.json
+GET /health
 ```
 
-Then click:
+Expected response:
 
-```text
-Connect Google Account
+```json
+{
+    "status": "API is running"
+}
 ```
 
-Your browser will open Google's authorization page.
-
-Sign in with the Google account whose YouTube playlists you want to manage.
-
-Review the requested permissions and allow access.
-
-After successful authentication, Ramma Sorter will store the authorization token locally.
-
----
-
-# 12. Using Ramma Sorter
-
-After authentication:
-
-### Select playlists
-
-Select one or multiple playlists from your YouTube library.
-
-### Describe the music
-
-Enter a natural-language request.
-
-For example:
-
-```text
-Dark and aggressive rap for the gym.
-Heavy bass, energetic tracks and a hard atmosphere.
-```
-
-You can write the request in any language supported by the AI model.
-
-### Name the new playlist
-
-For example:
-
-```text
-Gym Rage
-```
-
-### Start sorting
-
-Click:
-
-```text
-Sort my music
-```
-
-Ramma Sorter will:
-
-1. Fetch tracks from the selected playlists.
-2. Remove duplicate videos.
-3. Send the track information and your request to Gemini.
-4. Select matching tracks.
-5. Create a new private YouTube playlist.
-6. Add the selected tracks.
-7. Provide a link to the resulting playlist in YouTube Music.
-
----
-
-# API quota
-
-YouTube Data API uses project-based quota.
-
-Different API operations consume different amounts of quota.
-
-For example, playlist operations such as inserting playlist items consume quota units.
-
-Because Ramma Sorter is designed to use your own Google Cloud project, you should create and use your own OAuth credentials instead of sharing credentials from another project.
-
-You can monitor your project's API usage in Google Cloud Console:
-
-https://console.cloud.google.com/apis/dashboard
-
-YouTube Data API documentation:
-
-https://developers.google.com/youtube/v3/getting-started
-
-API reference:
-
-https://developers.google.com/youtube/v3/docs
-
----
-
-# Security
-
-Never commit these files to GitHub:
-
-```text
-client_secret.json
-token.json
-.env
-```
-
-Your `.gitignore` should contain:
-
-```gitignore
-venv/
-.venv/
-__pycache__/
-*.pyc
-
-.env
-
-client_secret.json
-token.json
-
-credentials/
-```
-
-OAuth credentials and tokens are sensitive.
-
-Do not post them in screenshots, GitHub issues, Discord, Telegram, or public repositories.
-
----
-
-# Logging out
-
-Use the:
-
-```text
-Disconnect
-```
-
-button inside Ramma Sorter.
-
-This removes the locally stored authentication token.
-
-The next time you connect an account, Google authentication will be performed again.
-
----
-
-# Troubleshooting
-
-## `client_secret.json was not found`
-
-Make sure you have uploaded your OAuth credentials through the Ramma Sorter login page.
-
-The file must be named:
-
-```text
-client_secret.json
-```
-
----
-
-## YouTube Data API is not enabled
-
-Open:
-
-https://console.cloud.google.com/apis/library
-
-Search for:
-
-```text
-YouTube Data API v3
-```
-
-Make sure it is enabled in the same Google Cloud project that owns your OAuth credentials.
-
----
-
-## OAuth authentication fails
-
-Check that:
-
-* You created an OAuth 2.0 Client ID.
-* The OAuth client is configured for a desktop application.
-* You are using the correct Google account.
-* The YouTube Data API is enabled.
-* Your Google account is allowed as a test user if your OAuth application is in testing mode.
-
----
-
-## `quotaExceeded`
-
-YouTube Data API has project-based quota limits.
-
-Check your Google Cloud project:
-
-https://console.cloud.google.com/apis/dashboard
-
-If you are repeatedly adding a large number of tracks, remember that playlist item insertion consumes quota.
-
----
-
-## Gemini errors
-
-Check your `.env` file:
-
-```env
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-```
-
-Make sure the key is valid and that the corresponding Gemini service is available for your account/project.
-
----
-
-# Development
-
-Start the development server:
-
-```powershell
-uvicorn main:app --reload
-```
-
-The `--reload` option automatically restarts the server when Python source files change.
-
----
-
-# Project structure
+## Project Structure
 
 ```text
 Ramma_sorter/
-│
-├── main.py
 ├── auth.py
-├── youtube_client.py
+├── config.py
+├── launcher.py
+├── main.py
 ├── sorter.py
-│
-├── templates/
-│   ├── index.html
-│   └── login.html
-│
-├── static/
-│   ├── style.css
-│   ├── app.js
-│   └── login.js
-│
-├── .env
-├── client_secret.json
-├── token.json
+├── youtube_client.py
 ├── requirements.txt
+├── LICENSE
+├── README.md
 ├── .gitignore
-└── README.md
+├── static/
+│   ├── app.js
+│   ├── favicon.svg
+│   ├── login.js
+│   └── style.css
+└── templates/
+    ├── index.html
+    └── login.html
 ```
 
----
+### Main Components
 
-# Official documentation
+**`main.py`**
 
-### Google Cloud Console
+FastAPI application and API routes.
 
-https://console.cloud.google.com/
+**`auth.py`**
 
-### Google Cloud API Library
+Google OAuth authentication and credential management.
 
-https://console.cloud.google.com/apis/library
+**`config.py`**
 
-### Google Cloud Credentials
+Local Gemini API key configuration.
 
-https://console.cloud.google.com/apis/credentials
+**`youtube_client.py`**
 
-### Google Auth Platform
+YouTube Data API operations.
 
-https://console.cloud.google.com/auth/overview
+**`sorter.py`**
 
-### YouTube Data API
+Gemini-powered music filtering.
 
-https://developers.google.com/youtube/v3/getting-started
+**`launcher.py`**
 
-### YouTube Data API Reference
+Starts the FastAPI server and opens the application in the browser.
 
-https://developers.google.com/youtube/v3/docs
+**`static/`**
 
-### YouTube OAuth for Desktop Apps
+Frontend JavaScript, CSS and favicon.
 
-https://developers.google.com/youtube/v3/guides/auth/installed-apps
+**`templates/`**
 
-### Google OAuth documentation
+HTML pages used by the application.
 
-https://developers.google.com/workspace/guides/configure-oauth-consent
+## Technology Stack
 
-### Gemini API Key
+* Python
+* FastAPI
+* Uvicorn
+* Google YouTube Data API v3
+* Google OAuth 2.0
+* Gemini API
+* JavaScript
+* HTML
+* CSS
+* PyInstaller
 
-https://aistudio.google.com/apikey
+## License
 
----
+Ramma Sorter is licensed under the MIT License.
 
-# License
-
-Add your preferred license here.
+See the [LICENSE](LICENSE) file for details.
